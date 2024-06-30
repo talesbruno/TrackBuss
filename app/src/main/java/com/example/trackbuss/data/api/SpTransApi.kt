@@ -9,27 +9,27 @@ import retrofit2.http.Query
 
 interface SpTransApi {
 
-    @GET("Posicao")
+    @GET(value = "Posicao")
     suspend fun getBusPositions(): DataResponse
 
-    @GET("Linha/Buscar")
+    @GET(value = "Linha/Buscar")
     suspend fun searchLines(@Query("termosBusca") searchTerm: String): List<BusLine>
 
-    @GET("Parada/Buscar")
+    @GET(value = "Parada/Buscar")
     suspend fun searchStops(@Query("termosBusca") searchTerm: String): List<BusStop>
 
-    @GET("Previsao")
+    @GET(value = "Previsao")
     suspend fun getArrivalForecast(
         @Query("codigoParada") stopCode: Int,
         @Query("codigoLinha") lineCode: String
     ): List<ArrivalForecast>
 
-    @GET("Previsao/Linha")
+    @GET(value = "Previsao/Linha")
     suspend fun getArrivalForecastForLine(
         @Query("codigoLinha") lineCode: String
     ): List<ArrivalForecast>
 
-    @GET("Previsao/Parada")
+    @GET(value = "Previsao/Parada")
     suspend fun getArrivalForecastForStop(
         @Query("codigoParada") stopCode: Int
     ): ArrivalForecast

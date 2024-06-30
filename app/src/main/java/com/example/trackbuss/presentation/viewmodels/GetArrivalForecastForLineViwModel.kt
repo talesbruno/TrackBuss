@@ -1,4 +1,4 @@
-package com.example.trackbuss.presentation
+package com.example.trackbuss.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
