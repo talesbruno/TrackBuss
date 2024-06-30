@@ -64,5 +64,27 @@ class SpTransRepositoryImpl @Inject constructor(private val spTransApi: SpTransA
         }
     }
 
+    override suspend fun getArrivalForecastForLine(lineCode: String): Flow<Result<List<ArrivalForecast>>> {
+        return flow {
+            emit(Result.Loading())
+            try {
+                val response = spTransApi.getArrivalForecastForLine(lineCode)
+                emit(Result.Success(response))
+            } catch (e: Exception) {
+                emit(Result.Error(e.message.toString()))
+            }
+        }
+    }
 
+    override suspend fun getArrivalForecastForStop(topCode: Int): Flow<Result<ArrivalForecast>> {
+        return flow {
+            emit(Result.Loading())
+            try {
+                val response = spTransApi.getArrivalForecastForStop(topCode)
+                emit(Result.Success(response))
+            } catch (e: Exception) {
+                emit(Result.Error(e.message.toString()))
+            }
+        }
+    }
 }

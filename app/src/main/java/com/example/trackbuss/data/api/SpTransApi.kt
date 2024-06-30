@@ -23,4 +23,15 @@ interface SpTransApi {
         @Query("codigoParada") stopCode: Int,
         @Query("codigoLinha") lineCode: String
     ): List<ArrivalForecast>
+
+    @GET("Previsao/Linha")
+    suspend fun getArrivalForecastForLine(
+        @Query("codigoLinha") lineCode: String
+    ): List<ArrivalForecast>
+
+    @GET("Previsao/Parada")
+    suspend fun getArrivalForecastForStop(
+        @Query("codigoParada") stopCode: Int
+    ): ArrivalForecast
+
 }

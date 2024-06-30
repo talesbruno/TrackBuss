@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class DataResponse(
     @SerializedName("hr") val hr: String,
-    @SerializedName("l") val locations: List<Location>
+    @SerializedName("ps") val stopPointList: List<StopPoint>
 )
 
 
