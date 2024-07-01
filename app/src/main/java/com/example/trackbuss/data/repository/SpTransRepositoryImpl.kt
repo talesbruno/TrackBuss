@@ -77,7 +77,7 @@ class SpTransRepositoryImpl @Inject constructor(private val spTransApi: SpTransA
         }
     }
 
-    override suspend fun getArrivalForecastForStop(stopCode: Int): Flow<Result<ArrivalForecast>> {
+    override suspend fun getArrivalForecastForStop(stopCode: Int): Flow<Result<DataResponse>> {
         return flow {
             emit(Result.Loading())
             try {

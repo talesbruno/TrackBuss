@@ -20,5 +20,5 @@ interface SpTransRepository {
 
     suspend fun getArrivalForecastForLine(lineCode: Int): Flow<Result<ArrivalForecast>>
 
-    suspend fun getArrivalForecastForStop(stopCode: Int): Flow<Result<ArrivalForecast>>
+    suspend fun getArrivalForecastForStop(stopCode: Int): Flow<Result<DataResponse>>
 }

@@ -11,6 +11,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.trackbuss.presentation.viewmodels.GetArrivalForecastForLineViwModel
+import com.example.trackbuss.presentation.viewmodels.GetArrivalForecastForStopViewModel
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
@@ -21,25 +22,25 @@ import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
 fun MapScreen(
-    getArrivalForecastForLineViwModel: GetArrivalForecastForLineViwModel,
+    getArrivalForecastForStopViewModel: GetArrivalForecastForStopViewModel,
     lineCode: Int,
     modifier: Modifier = Modifier
 ) {
-    val loading by getArrivalForecastForLineViwModel.isLoading.collectAsStateWithLifecycle()
-    val arrivalForecast by getArrivalForecastForLineViwModel.data.collectAsStateWithLifecycle()
+    val loading by getArrivalForecastForStopViewModel.isLoading.collectAsStateWithLifecycle()
+    LaunchedEffect(lineCode) {
+        getArrivalForecastForStopViewModel.getArrivalForecastForStop(lineCode)
+    }
+    val arrivalForecast by getArrivalForecastForStopViewModel.data.collectAsStateWithLifecycle()
     if (loading) {
         SplashScreen()
     }
-    LaunchedEffect(lineCode) {
-        getArrivalForecastForLineViwModel.getArrivalForecastForLine(lineCode)
-    }
-    if (arrivalForecast == null || arrivalForecast!!.stop.isEmpty()) {
+    if (arrivalForecast == null) {
         // Trata o caso em que positionData é nulo ou não há paradas disponíveis
         Text("Não há dados disponíveis para exibir o mapa.")
         return
     }
-    val stops = arrivalForecast?.stop
-    val initialPosition = stops?.get(0)?.let { LatLng(it.latitude, stops[0].longitude) }
+    val stops = arrivalForecast?.stopPointList
+    val initialPosition = stops?.let { LatLng(it.latitude, stops.longitude) }
     val cameraPositionState = rememberCameraPositionState {
         position = initialPosition?.let { CameraPosition.fromLatLngZoom(it, 15f) }!!
     }
@@ -50,11 +51,11 @@ fun MapScreen(
         modifier = Modifier.fillMaxSize(),
         cameraPositionState = cameraPositionState,
         uiSettings = uiSettings
-    ){
-        stops?.forEachIndexed { index, stop ->
+    ) {
+        if (stops != null) {
             Marker(
-                state = MarkerState(position = LatLng(stop.latitude, stop.longitude)),
-                title = stop.stopName
+                state = MarkerState(position = LatLng(stops.latitude, stops.longitude)),
+                title = stops.stopName
             )
         }
     }

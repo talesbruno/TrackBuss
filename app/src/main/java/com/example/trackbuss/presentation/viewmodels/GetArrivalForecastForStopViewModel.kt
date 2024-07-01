@@ -3,6 +3,7 @@ package com.example.trackbuss.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.trackbuss.domain.data.ArrivalForecast
+import com.example.trackbuss.domain.data.DataResponse
 import com.example.trackbuss.domain.usecase.GetArrivalForecastForStopUseCase
 import com.example.trackbuss.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,8 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class GetArrivalForecastForStopViewModel @Inject constructor(private val getArrivalForecastForStopUseCase: GetArrivalForecastForStopUseCase) :
     ViewModel() {
-    private val _data = MutableStateFlow<ArrivalForecast?>(null)
-    val data: StateFlow<ArrivalForecast?> = _data
+    private val _data = MutableStateFlow<DataResponse?>(null)
+    val data: StateFlow<DataResponse?> = _data
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()

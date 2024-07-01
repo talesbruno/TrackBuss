@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.trackbuss.presentation.screens.HomeScreen
 import com.example.trackbuss.presentation.viewmodels.GetArrivalForecastForLineViwModel
+import com.example.trackbuss.presentation.viewmodels.GetArrivalForecastForStopViewModel
 import com.example.trackbuss.presentation.viewmodels.SearchLinesViewModel
 import com.example.trackbuss.presentation.viewmodels.SearchStopsViewModel
 import com.example.trackbuss.ui.theme.TrackBussTheme
@@ -21,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val getArrivalForecastForLineViwModel by viewModels<GetArrivalForecastForLineViwModel>()
+    private val getArrivalForecastForStopViewModel by viewModels<GetArrivalForecastForStopViewModel>()
     private val searchLinesViewModel by viewModels<SearchLinesViewModel>()
     private val searchStopsViewModel by viewModels<SearchStopsViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,8 +36,9 @@ class MainActivity : ComponentActivity() {
                 ) {
                     HomeScreen(
                         getArrivalForecastForLineViwModel,
+                        getArrivalForecastForStopViewModel,
                         searchLinesViewModel,
-                        searchStopsViewModel
+                        searchStopsViewModel,
                     )
                 }
             }

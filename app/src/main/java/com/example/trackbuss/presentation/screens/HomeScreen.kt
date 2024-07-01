@@ -40,6 +40,7 @@ import com.example.trackbuss.domain.data.ArrivalForecast
 import com.example.trackbuss.domain.data.BusLine
 import com.example.trackbuss.presentation.navigation.NavigationRoute
 import com.example.trackbuss.presentation.viewmodels.GetArrivalForecastForLineViwModel
+import com.example.trackbuss.presentation.viewmodels.GetArrivalForecastForStopViewModel
 import com.example.trackbuss.presentation.viewmodels.SearchLinesViewModel
 import com.example.trackbuss.presentation.viewmodels.SearchStopsViewModel
 import kotlinx.coroutines.launch
@@ -48,6 +49,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 fun HomeScreen(
     getArrivalForecastForLineViwModel: GetArrivalForecastForLineViwModel,
+    getArrivalForecastForStopViewModel: GetArrivalForecastForStopViewModel,
     searchLinesViewModel: SearchLinesViewModel,
     searchStopsViewModel: SearchStopsViewModel,
     navController: NavHostController = rememberNavController(),
@@ -134,7 +136,7 @@ fun HomeScreen(
                     val lineCode = backStackEntry.arguments?.getInt("lineCode")
                     requireNotNull(lineCode)
                     MapScreen(
-                        getArrivalForecastForLineViwModel = getArrivalForecastForLineViwModel,
+                        getArrivalForecastForStopViewModel = getArrivalForecastForStopViewModel,
                         lineCode = lineCode
                     )
                 }

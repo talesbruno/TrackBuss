@@ -38,6 +38,6 @@ interface SpTransApi {
     @GET(value = "Previsao/Parada")
     suspend fun getArrivalForecastForStop(
         @Query("codigoParada") stopCode: Int
-    ): ArrivalForecast
+    ): DataResponse
 
 }
