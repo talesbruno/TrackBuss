@@ -4,10 +4,18 @@ import com.example.trackbuss.domain.data.ArrivalForecast
 import com.example.trackbuss.domain.data.BusLine
 import com.example.trackbuss.domain.data.BusStop
 import com.example.trackbuss.domain.data.DataResponse
+import com.example.trackbuss.utils.Constants.API_KEY
+import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.Headers
+import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface SpTransApi {
+    @Headers("Authorization: Bearer $API_KEY")
+    @POST(value = "Login/Autenticar")
+    suspend fun authenticate(@Query("token") token: String): Response<Boolean>
 
     @GET(value = "Posicao")
     suspend fun getBusPositions(): DataResponse

@@ -18,30 +18,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
-//    @Provides
-//    @Singleton
-//    fun provideOpenSpTransApi(): SpTransApi {
-//        val loggingInterceptor = HttpLoggingInterceptor()
-//        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-//
-//        val client = OkHttpClient.Builder()
-//            .addInterceptor(loggingInterceptor)
-//            .addInterceptor { chain ->
-//                val request = chain.request().newBuilder()
-//                    .addHeader("Authorization", "Bearer $API_KEY")
-//                    .build()
-//                chain.proceed(request)
-//            }
-//            .build()
-//
-//        val retrofit = Retrofit.Builder()
-//            .baseUrl(BASE_URL)
-//            .client(client)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//
-//        return retrofit.create(SpTransApi::class.java)
-//    }
 
     @Provides
     @Singleton
@@ -67,9 +43,9 @@ class AppModule {
     @Singleton
     fun provideRetrofit(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(BASE_URL) // Use BASE_URL from Constants
             .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
@@ -78,6 +54,7 @@ class AppModule {
     fun provideMovieAppService(retrofit: Retrofit): SpTransApi {
         return retrofit.create(SpTransApi::class.java)
     }
+
 
     @Provides
     @Singleton

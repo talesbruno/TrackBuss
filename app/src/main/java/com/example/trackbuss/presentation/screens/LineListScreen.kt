@@ -41,6 +41,7 @@ fun LineListScreen(
     if (loading) {
         SplashScreen()
     }
+    Text(text = "teste 10")
     Column(modifier = modifier.fillMaxSize()) {
         LazyColumn {
             items(items = lines) { bussLine ->
