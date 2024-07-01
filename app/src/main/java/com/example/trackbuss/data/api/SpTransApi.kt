@@ -21,8 +21,8 @@ interface SpTransApi {
     @GET(value = "Linha/Buscar")
     suspend fun searchLines(@Query("termosBusca") searchTerm: String): List<BusLine>
 
-    @GET(value = "Parada/Buscar")
-    suspend fun searchStops(@Query("termosBusca") searchTerm: String): List<BusStop>
+    @GET(value = "Parada/BuscarParadasPorLinha")
+    suspend fun searchStops(@Query("codigoLinha") searchTerm: Int): List<BusStop>
 
     @GET(value = "Previsao")
     suspend fun getArrivalForecast(
@@ -32,8 +32,8 @@ interface SpTransApi {
 
     @GET(value = "Previsao/Linha")
     suspend fun getArrivalForecastForLine(
-        @Query("codigoLinha") lineCode: String
-    ): List<ArrivalForecast>
+        @Query("codigoLinha") lineCode: Int
+    ): ArrivalForecast
 
     @GET(value = "Previsao/Parada")
     suspend fun getArrivalForecastForStop(

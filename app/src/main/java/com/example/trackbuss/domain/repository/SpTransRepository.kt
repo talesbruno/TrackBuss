@@ -14,11 +14,11 @@ interface SpTransRepository {
 
     suspend fun searchLines(searchTerm: String): Flow<Result<List<BusLine>>>
 
-    suspend fun searchStops(searchTerm: String): Flow<Result<List<BusStop>>>
+    suspend fun searchStops(searchTerm: Int): Flow<Result<List<BusStop>>>
 
     suspend fun getArrivalForecast(stopCode: Int, lineCode: String): Flow<Result<List<ArrivalForecast>>>
 
-    suspend fun getArrivalForecastForLine(lineCode: String): Flow<Result<List<ArrivalForecast>>>
+    suspend fun getArrivalForecastForLine(lineCode: Int): Flow<Result<ArrivalForecast>>
 
     suspend fun getArrivalForecastForStop(stopCode: Int): Flow<Result<ArrivalForecast>>
 }

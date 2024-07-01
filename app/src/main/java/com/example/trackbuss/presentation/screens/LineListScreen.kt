@@ -62,10 +62,12 @@ fun LineListScreen(
         LazyColumn {
             items(items = lines) { bussLine ->
                 LineCard(
+                    bussLine.lineCode,
                     bussLine.firstName,
                     bussLine.lastName,
                     bussLine.mainSign,
-                    bussLine.secondarySign
+                    bussLine.secondarySign,
+                    onNavigateToArrivalForecastScreen
                 )
             }
         }
@@ -75,13 +77,15 @@ fun LineListScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LineCard(
+    lineCode: Int,
     firstName: String,
     lastName: Int,
     mainSign: String,
     secondarySign: String,
+    onNavigateToArrivalForecastScreen: (Int) -> Unit,
 ) {
     Card(
-        onClick = { },
+        onClick = { onNavigateToArrivalForecastScreen(lineCode)},
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         content = {
             Row(

@@ -38,7 +38,7 @@ class SpTransRepositoryImpl @Inject constructor(private val spTransApi: SpTransA
         }
     }
 
-    override suspend fun searchStops(searchTerm: String): Flow<Result<List<BusStop>>> {
+    override suspend fun searchStops(searchTerm: Int): Flow<Result<List<BusStop>>> {
         return flow {
             emit(Result.Loading())
             try {
@@ -65,7 +65,7 @@ class SpTransRepositoryImpl @Inject constructor(private val spTransApi: SpTransA
         }
     }
 
-    override suspend fun getArrivalForecastForLine(lineCode: String): Flow<Result<List<ArrivalForecast>>> {
+    override suspend fun getArrivalForecastForLine(lineCode: Int): Flow<Result<ArrivalForecast>> {
         return flow {
             emit(Result.Loading())
             try {

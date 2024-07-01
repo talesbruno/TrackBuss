@@ -14,12 +14,18 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DirectionsBus
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,20 +34,34 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.trackbuss.domain.data.ArrivalForecast
+import com.example.trackbuss.domain.data.BusStop
 import com.example.trackbuss.presentation.viewmodels.GetArrivalForecastForLineViwModel
+import com.example.trackbuss.presentation.viewmodels.SearchStopsViewModel
 
 @Composable
-fun ArrivalForecastScreen(
+fun StopPintsScreen(
     lineCode: Int,
-    getArrivalForecastForLineViwModel: GetArrivalForecastForLineViwModel,
+    searchStopsViewModel: SearchStopsViewModel,
+    onNavigateToMapsScreen: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val arrivalForecasts by getArrivalForecastForLineViwModel.data.collectAsStateWithLifecycle()
+    val loading by searchStopsViewModel.isLoading.collectAsStateWithLifecycle()
+    if (loading) {
+        SplashScreen()
+    }
+    LaunchedEffect(lineCode) {
+        searchStopsViewModel.searchStops(lineCode)
+    }
+    val busStops by searchStopsViewModel.data.collectAsStateWithLifecycle()
     Column(modifier = modifier.fillMaxSize()) {
-        LazyColumn {
-            items(items = arrivalForecasts) { arrivalForecast ->
+        Text(text = "Pontos de paradas")
+        LazyColumn(
+            modifier.padding(12.dp)
+        ) {
+            items(items = busStops) { busStop ->
                 ArrivalForecastCard(
-                    arrivalForecast
+                    busStop,
+                    onNavigateToMapsScreen
                 )
             }
         }
@@ -51,10 +71,11 @@ fun ArrivalForecastScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArrivalForecastCard(
-    arrivalForecast: ArrivalForecast
+    busStop: BusStop,
+    onNavigateToMapsScreen: (Int) -> Unit,
 ) {
     Card(
-        onClick = { },
+        onClick = { onNavigateToMapsScreen(busStop.stopCode) },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         content = {
             Row(
@@ -73,19 +94,9 @@ fun ArrivalForecastCard(
                 Spacer(modifier = Modifier.size(16.dp))
                 Column {
                     Text(
-                        text = arrivalForecast.stop.stopName,
+                        text = busStop.stopName,
                         fontWeight = FontWeight.Bold,
                     )
-                    Text(
-                        text = "Código da parada: ${arrivalForecast.stop.stopCode}",
-                        fontWeight = FontWeight.Bold,
-                    )
-                    LazyRow {
-                        items(items = arrivalForecast.stop.vehicleList){vehicle->
-                            Text(text = vehicle.estimatedTimeStop)
-                            Spacer(modifier = Modifier.size(10.dp))
-                        }
-                    }
                 }
             }
         },

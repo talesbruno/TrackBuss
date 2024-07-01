@@ -18,8 +18,8 @@ import javax.inject.Inject
 class GetArrivalForecastForLineViwModel @Inject constructor(private val getArrivalForecastForLineUseCase: GetArrivalForecastForLineUseCase) :
     ViewModel() {
 
-    private val _data = MutableStateFlow<List<ArrivalForecast>>(emptyList())
-    val data: StateFlow<List<ArrivalForecast>> = _data
+    private val _data = MutableStateFlow<ArrivalForecast?>(null)
+    val data: StateFlow<ArrivalForecast?> = _data
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
@@ -27,7 +27,7 @@ class GetArrivalForecastForLineViwModel @Inject constructor(private val getArriv
     private val _isError = MutableStateFlow("")
     val isError = _isError.asStateFlow()
 
-    fun getArrivalForecastForLine(lineCode: String) {
+    fun getArrivalForecastForLine(lineCode: Int) {
         viewModelScope.launch {
             getArrivalForecastForLineUseCase(lineCode).collect { result ->
                 when (result) {

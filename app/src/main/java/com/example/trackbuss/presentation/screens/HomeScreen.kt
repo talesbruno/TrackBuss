@@ -41,6 +41,7 @@ import com.example.trackbuss.domain.data.BusLine
 import com.example.trackbuss.presentation.navigation.NavigationRoute
 import com.example.trackbuss.presentation.viewmodels.GetArrivalForecastForLineViwModel
 import com.example.trackbuss.presentation.viewmodels.SearchLinesViewModel
+import com.example.trackbuss.presentation.viewmodels.SearchStopsViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -48,6 +49,7 @@ import kotlinx.coroutines.launch
 fun HomeScreen(
     getArrivalForecastForLineViwModel: GetArrivalForecastForLineViwModel,
     searchLinesViewModel: SearchLinesViewModel,
+    searchStopsViewModel: SearchStopsViewModel,
     navController: NavHostController = rememberNavController(),
     modifier: Modifier = Modifier,
 ) {
@@ -117,9 +119,23 @@ fun HomeScreen(
                 ) { backStackEntry ->
                     val lineCode = backStackEntry.arguments?.getInt("lineCode")
                     requireNotNull(lineCode)
-                    ArrivalForecastScreen(
+                    StopPintsScreen(
                         lineCode,
-                        getArrivalForecastForLineViwModel
+                        searchStopsViewModel,
+                        onNavigateToMapsScreen = {
+                            navController.navigate(NavigationRoute.Maps.createRoute(it))
+                        }
+                    )
+                }
+                composable(
+                    NavigationRoute.Maps.route,
+                    arguments = listOf(navArgument("lineCode") { type = NavType.IntType })
+                ) { backStackEntry ->
+                    val lineCode = backStackEntry.arguments?.getInt("lineCode")
+                    requireNotNull(lineCode)
+                    MapScreen(
+                        getArrivalForecastForLineViwModel = getArrivalForecastForLineViwModel,
+                        lineCode = lineCode
                     )
                 }
             }
