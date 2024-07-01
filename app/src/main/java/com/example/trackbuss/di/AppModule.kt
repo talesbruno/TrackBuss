@@ -41,10 +41,9 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(client: OkHttpClient): Retrofit {
+    fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL) // Use BASE_URL from Constants
-            .client(client)
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
@@ -54,7 +53,6 @@ class AppModule {
     fun provideMovieAppService(retrofit: Retrofit): SpTransApi {
         return retrofit.create(SpTransApi::class.java)
     }
-
 
     @Provides
     @Singleton

@@ -13,9 +13,7 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface SpTransApi {
-    @Headers("Authorization: Bearer $API_KEY")
-    @POST(value = "Login/Autenticar")
-    suspend fun authenticate(@Query("token") token: String): Response<Boolean>
+
 
     @GET(value = "Posicao")
     suspend fun getBusPositions(): DataResponse

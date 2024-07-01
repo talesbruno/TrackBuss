@@ -14,31 +14,8 @@ import javax.inject.Inject
 
 class SpTransRepositoryImpl @Inject constructor(private val spTransApi: SpTransApi) :
     SpTransRepository {
-
-    private var isAuthenticated = false
-
-    override suspend fun authenticate(apiKey: String): Flow<Result<Boolean>> {
-        return flow {
-            emit(Result.Loading())
-            try {
-                val response = spTransApi.authenticate(apiKey)
-                val success = response.body() ?: false
-                isAuthenticated = success
-                emit(Result.Success(success))
-            } catch (e: Exception) {
-                emit(Result.Error(e.message.toString()))
-            }
-        }
-    }
-
     override suspend fun getBusPositions(): Flow<Result<DataResponse>> {
         return flow {
-            // Check authentication before proceeding
-            if (!isAuthenticated) {
-                emit(Result.Error("Not authenticated"))
-                return@flow
-            }
-
             emit(Result.Loading())
             try {
                 val response = spTransApi.getBusPositions()
@@ -51,12 +28,6 @@ class SpTransRepositoryImpl @Inject constructor(private val spTransApi: SpTransA
 
     override suspend fun searchLines(searchTerm: String): Flow<Result<List<BusLine>>> {
         return flow {
-            // Check authentication before proceeding
-            if (!isAuthenticated) {
-                emit(Result.Error("Not authenticated"))
-                return@flow
-            }
-
             emit(Result.Loading())
             try {
                 val response = spTransApi.searchLines(searchTerm)
@@ -69,12 +40,6 @@ class SpTransRepositoryImpl @Inject constructor(private val spTransApi: SpTransA
 
     override suspend fun searchStops(searchTerm: String): Flow<Result<List<BusStop>>> {
         return flow {
-            // Check authentication before proceeding
-            if (!isAuthenticated) {
-                emit(Result.Error("Not authenticated"))
-                return@flow
-            }
-
             emit(Result.Loading())
             try {
                 val response = spTransApi.searchStops(searchTerm)
@@ -85,14 +50,11 @@ class SpTransRepositoryImpl @Inject constructor(private val spTransApi: SpTransA
         }
     }
 
-    override suspend fun getArrivalForecast(stopCode: Int, lineCode: String): Flow<Result<List<ArrivalForecast>>> {
+    override suspend fun getArrivalForecast(
+        stopCode: Int,
+        lineCode: String
+    ): Flow<Result<List<ArrivalForecast>>> {
         return flow {
-            // Check authentication before proceeding
-            if (!isAuthenticated) {
-                emit(Result.Error("Not authenticated"))
-                return@flow
-            }
-
             emit(Result.Loading())
             try {
                 val response = spTransApi.getArrivalForecast(stopCode, lineCode)
@@ -105,12 +67,6 @@ class SpTransRepositoryImpl @Inject constructor(private val spTransApi: SpTransA
 
     override suspend fun getArrivalForecastForLine(lineCode: String): Flow<Result<List<ArrivalForecast>>> {
         return flow {
-            // Check authentication before proceeding
-            if (!isAuthenticated) {
-                emit(Result.Error("Not authenticated"))
-                return@flow
-            }
-
             emit(Result.Loading())
             try {
                 val response = spTransApi.getArrivalForecastForLine(lineCode)
@@ -123,12 +79,6 @@ class SpTransRepositoryImpl @Inject constructor(private val spTransApi: SpTransA
 
     override suspend fun getArrivalForecastForStop(stopCode: Int): Flow<Result<ArrivalForecast>> {
         return flow {
-            // Check authentication before proceeding
-            if (!isAuthenticated) {
-                emit(Result.Error("Not authenticated"))
-                return@flow
-            }
-
             emit(Result.Loading())
             try {
                 val response = spTransApi.getArrivalForecastForStop(stopCode)

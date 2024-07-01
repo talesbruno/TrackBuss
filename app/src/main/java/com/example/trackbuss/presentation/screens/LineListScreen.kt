@@ -13,12 +13,17 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DirectionsBus
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,6 +41,7 @@ fun LineListScreen(
     onNavigateToArrivalForecastScreen: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var title by rememberSaveable { mutableStateOf("") }
     val lines by searchLinesViewModel.data.collectAsStateWithLifecycle()
     val loading by searchLinesViewModel.isLoading.collectAsStateWithLifecycle()
     if (loading) {
@@ -43,6 +49,16 @@ fun LineListScreen(
     }
     Text(text = "teste 10")
     Column(modifier = modifier.fillMaxSize()) {
+        TextField(
+            value = title,
+            onValueChange = { title = it },
+            label = {
+                Text(text = "Nome")
+            }
+        )
+        Button(onClick = { searchLinesViewModel.searchLines(title) }) {
+            Text(text = "Cadastrar historia")
+        }
         LazyColumn {
             items(items = lines) { bussLine ->
                 LineCard(

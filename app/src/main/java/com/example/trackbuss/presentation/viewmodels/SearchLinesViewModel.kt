@@ -6,6 +6,7 @@ import com.example.trackbuss.domain.data.BusLine
 import com.example.trackbuss.domain.data.BusStop
 import com.example.trackbuss.domain.usecase.SearchLinesUseCase
 import com.example.trackbuss.domain.usecase.SearchStopsUseCase
+import com.example.trackbuss.utils.Constants.API_KEY
 import com.example.trackbuss.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +16,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchLinesViewModel @Inject constructor(private val searchLinesUseCase: SearchLinesUseCase) :
+class SearchLinesViewModel @Inject constructor(
+    private val searchLinesUseCase: SearchLinesUseCase,
+) :
     ViewModel() {
 
     private val _data = MutableStateFlow<List<BusLine>>(emptyList())
@@ -27,11 +30,7 @@ class SearchLinesViewModel @Inject constructor(private val searchLinesUseCase: S
     private val _isError = MutableStateFlow("")
     val isError = _isError.asStateFlow()
 
-    init {
-        searchStops("8000")
-    }
-
-    fun searchStops(searchTerm: String) {
+    fun searchLines(searchTerm: String) {
         viewModelScope.launch {
             searchLinesUseCase(searchTerm).collect { result ->
                 when (result) {
