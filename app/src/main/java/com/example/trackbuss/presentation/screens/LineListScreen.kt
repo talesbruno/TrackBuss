@@ -31,6 +31,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.trackbuss.domain.data.BusLine
 import com.example.trackbuss.presentation.components.GenericSearchBar
@@ -110,7 +111,7 @@ fun LineCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         content = {
             Row(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
@@ -118,19 +119,21 @@ fun LineCard(
                     contentDescription = "",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .size(50.dp)
+                        .size(40.dp)
                         .padding(3.dp)
                         .clip(CircleShape)
                 )
-                Spacer(modifier = Modifier.size(16.dp))
+                Spacer(modifier = Modifier.size(4.dp))
                 Column {
                     Row {
                         Text(
                             text = "${firstName}-${lastName}",
+                            fontSize = 14.sp,
                             fontWeight = FontWeight.Bold,
                         )
                         Text(
                             text = mainSign,
+                            fontSize = 14.sp,
                             fontWeight = FontWeight.Bold,
                         )
                     }
@@ -138,12 +141,13 @@ fun LineCard(
                         Text(
                             text = "${secondarySign}/${mainSign}",
                             fontWeight = FontWeight.Bold,
+                            fontSize = 12.sp,
                         )
                     }
                 }
             }
         },
         modifier = Modifier
-            .fillMaxWidth().padding(12.dp)
+            .fillMaxWidth().padding(6.dp)
     )
 }

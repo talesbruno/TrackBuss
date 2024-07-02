@@ -90,11 +90,6 @@ fun <T> GenericSearchBar(
                     itemContent(item)
                 }
             }
-        } else if (query.isNotEmpty()) {
-            Text(
-                text = "Nenhum resultado encontrado",
-                modifier = Modifier.padding(16.dp)
-            )
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.trackbuss.presentation.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -31,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.trackbuss.domain.data.ArrivalForecast
@@ -53,8 +55,14 @@ fun StopPintsScreen(
         searchStopsViewModel.searchStops(lineCode)
     }
     val busStops by searchStopsViewModel.data.collectAsStateWithLifecycle()
-    Column(modifier = modifier.fillMaxSize()) {
-        Text(text = "Pontos de paradas")
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier.fillMaxSize().padding(16.dp)
+    ) {
+        Text(
+            text = "PONTOS DE PARADAS",
+            fontWeight = FontWeight.Bold,
+        )
         LazyColumn{
             items(items = busStops) { busStop ->
                 ArrivalForecastCard(
@@ -99,6 +107,6 @@ fun ArrivalForecastCard(
             }
         },
         modifier = Modifier
-            .fillMaxWidth().padding(12.dp)
+            .fillMaxWidth().padding(6.dp)
     )
 }
