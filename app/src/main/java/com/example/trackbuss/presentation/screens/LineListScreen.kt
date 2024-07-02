@@ -20,6 +20,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -34,6 +35,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.trackbuss.domain.data.BusLine
 import com.example.trackbuss.presentation.components.GenericSearchBar
 import com.example.trackbuss.presentation.viewmodels.SearchLinesViewModel
+import com.example.trackbuss.states.SearchEvent
 
 @Composable
 fun LineListScreen(
@@ -41,32 +43,51 @@ fun LineListScreen(
     onNavigateToArrivalForecastScreen: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var title by rememberSaveable { mutableStateOf("") }
+    val state = searchLinesViewModel.searchState
     val lines by searchLinesViewModel.data.collectAsStateWithLifecycle()
     val loading by searchLinesViewModel.isLoading.collectAsStateWithLifecycle()
+
     if (loading) {
         SplashScreen()
     }
-    Text(text = "teste 10")
-    Column(modifier = modifier.fillMaxSize()) {
-        TextField(
-            value = title,
-            onValueChange = { title = it },
-            label = {
-                Text(text = "Nome")
+
+    Column(modifier = modifier.fillMaxSize().padding(16.dp)) {
+        GenericSearchBar(
+            items = lines,
+            query = state.query,
+            onQueryChange = { newQuery ->
+                searchLinesViewModel.onEvent(SearchEvent.QueryChanged(newQuery))
+            },
+            onSearch = {
+                searchLinesViewModel.onEvent(SearchEvent.Submit)
+            },
+            active = state.active,
+            onActiveChange = { active ->
+                // Handle active state change if needed
+            },
+            placeholder = {
+                Text("Search...")
+            },
+            itemContent = { busLine ->
+                LineCard(
+                    busLine.lineCode,
+                    busLine.firstName,
+                    busLine.lastName,
+                    busLine.mainSign,
+                    busLine.secondarySign,
+                    onNavigateToArrivalForecastScreen
+                )
             }
         )
-        Button(onClick = { searchLinesViewModel.searchLines(title) }) {
-            Text(text = "Cadastrar historia")
-        }
+
         LazyColumn {
-            items(items = lines) { bussLine ->
+            items(items = lines) { busLine ->
                 LineCard(
-                    bussLine.lineCode,
-                    bussLine.firstName,
-                    bussLine.lastName,
-                    bussLine.mainSign,
-                    bussLine.secondarySign,
+                    busLine.lineCode,
+                    busLine.firstName,
+                    busLine.lastName,
+                    busLine.mainSign,
+                    busLine.secondarySign,
                     onNavigateToArrivalForecastScreen
                 )
             }

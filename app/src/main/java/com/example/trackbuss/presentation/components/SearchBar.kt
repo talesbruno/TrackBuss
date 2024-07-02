@@ -39,11 +39,16 @@ fun <T> GenericSearchBar(
 
     LaunchedEffect(query) {
         searchResults = if (query.isNotEmpty()) {
-            items.filter {
-                it.toString().startsWith(query, ignoreCase = true)
+            items.filter { item ->
+                item.toString().contains(query, ignoreCase = true)
             }
         } else {
             emptyList()
+        }
+    }
+    LaunchedEffect(searchResults.isEmpty() && query.isEmpty()) {
+        if (!active && searchResults.isNotEmpty()) {
+            onActiveChange(false)
         }
     }
 
