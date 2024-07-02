@@ -55,9 +55,7 @@ fun StopPintsScreen(
     val busStops by searchStopsViewModel.data.collectAsStateWithLifecycle()
     Column(modifier = modifier.fillMaxSize()) {
         Text(text = "Pontos de paradas")
-        LazyColumn(
-            modifier.padding(12.dp)
-        ) {
+        LazyColumn{
             items(items = busStops) { busStop ->
                 ArrivalForecastCard(
                     busStop,
@@ -101,6 +99,6 @@ fun ArrivalForecastCard(
             }
         },
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth().padding(12.dp)
     )
 }

@@ -144,6 +144,6 @@ fun LineCard(
             }
         },
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth().padding(12.dp)
     )
 }
