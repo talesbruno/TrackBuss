@@ -31,13 +31,14 @@ fun <T> GenericSearchBar(
     query: String,
     onQueryChange: (String) -> Unit,
     onSearch: () -> Unit,
-    active: Boolean,
-    onActiveChange: (Boolean) -> Unit,
     placeholder: @Composable () -> Unit,
     itemContent: @Composable (T) -> Unit
 ) {
     var searchResults by remember { mutableStateOf<List<T>>(emptyList()) }
-
+    var active by remember { mutableStateOf(false) }
+    val onActiveChange: (Boolean) -> Unit = {
+        active = it
+    }
     LaunchedEffect(query) {
         searchResults = if (query.isNotEmpty()) {
             items.filter { item ->
@@ -47,16 +48,15 @@ fun <T> GenericSearchBar(
             emptyList()
         }
     }
-    LaunchedEffect(searchResults.isEmpty() && query.isEmpty()) {
-        if (!active && searchResults.isNotEmpty()) {
-            onActiveChange(false)
-        }
-    }
 
     DockedSearchBar(
+        modifier = Modifier.fillMaxWidth(),
         query = query,
         onQueryChange = onQueryChange,
-        onSearch = { onSearch() },
+        onSearch = {
+            active = false
+            onSearch()
+        },
         active = active,
         onActiveChange = onActiveChange,
         placeholder = placeholder,
@@ -68,7 +68,7 @@ fun <T> GenericSearchBar(
                     modifier = Modifier
                         .padding(start = 16.dp)
                         .clickable {
-                            onActiveChange(false)
+                            active = false
                             onQueryChange("")
                         },
                 )
@@ -81,7 +81,7 @@ fun <T> GenericSearchBar(
             }
         }
     ) {
-        if (query.isNotEmpty()) {
+        if (searchResults.isNotEmpty()) {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
                 contentPadding = PaddingValues(16.dp),
@@ -91,6 +91,11 @@ fun <T> GenericSearchBar(
                     itemContent(item)
                 }
             }
+        } else if (query.isNotEmpty()) {
+            Text(
+                text = "Linha não encontrada",
+                modifier = Modifier.padding(16.dp)
+            )
         }
     }
 }

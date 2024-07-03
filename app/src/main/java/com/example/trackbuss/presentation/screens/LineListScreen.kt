@@ -52,7 +52,12 @@ fun LineListScreen(
         SplashScreen()
     }
 
-    Column(modifier = modifier.fillMaxSize().padding(16.dp)) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
         GenericSearchBar(
             items = lines,
             query = state.query,
@@ -61,10 +66,6 @@ fun LineListScreen(
             },
             onSearch = {
                 searchLinesViewModel.onEvent(SearchEvent.Submit)
-            },
-            active = state.active,
-            onActiveChange = { active ->
-
             },
             placeholder = {
                 Text("Buscar linha...")
@@ -80,7 +81,7 @@ fun LineListScreen(
                 )
             }
         )
-
+        Spacer(modifier = Modifier.size(22.dp))
         LazyColumn {
             items(items = lines) { busLine ->
                 LineCard(
@@ -107,7 +108,7 @@ fun LineCard(
     onNavigateToArrivalForecastScreen: (Int) -> Unit,
 ) {
     Card(
-        onClick = { onNavigateToArrivalForecastScreen(lineCode)},
+        onClick = { onNavigateToArrivalForecastScreen(lineCode) },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         content = {
             Row(
@@ -148,6 +149,7 @@ fun LineCard(
             }
         },
         modifier = Modifier
-            .fillMaxWidth().padding(6.dp)
+            .fillMaxWidth()
+            .padding(6.dp)
     )
 }

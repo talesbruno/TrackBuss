@@ -71,12 +71,8 @@ fun StopPintsScreen(
             onSearch = {
                 searchStopsViewModel.onEvent(SearchEvent.Submit)
             },
-            active = state.active,
-            onActiveChange = { active ->
-
-            },
             placeholder = {
-                Text("Filtrar")
+                Text("Filtrar...")
             },
             itemContent = { busStop ->
                 ArrivalForecastCard(
@@ -85,10 +81,12 @@ fun StopPintsScreen(
                 )
             }
         )
+        Spacer(modifier = Modifier.size(16.dp))
         Text(
-            text = "PONTOS DE PARADAS",
+            text = "PONTOS DE PARADA",
             fontWeight = FontWeight.Bold,
         )
+        Spacer(modifier = Modifier.size(16.dp))
         LazyColumn{
             items(items = busStops) { busStop ->
                 ArrivalForecastCard(

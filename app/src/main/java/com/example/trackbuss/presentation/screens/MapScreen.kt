@@ -1,5 +1,6 @@
 package com.example.trackbuss.presentation.screens
 
+import android.provider.CalendarContract.Colors
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,7 +15,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessAlarm
 import androidx.compose.material.icons.filled.DirectionsBus
 import androidx.compose.material.icons.filled.WavingHand
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -72,6 +75,7 @@ fun MapScreen(
     val uiSettings by remember {
         mutableStateOf(MapUiSettings(zoomControlsEnabled = true))
     }
+    //Lembrete: procurar o motivo do MarkerComposable não exibir icon
     GoogleMap(
         modifier = Modifier.fillMaxSize(),
         cameraPositionState = cameraPositionState,
@@ -90,10 +94,12 @@ fun MapScreen(
                             RoundedCornerShape(10)
                         )
                         .clip(RoundedCornerShape(10))
-                        .background(Color.Blue)
+                        .background(MaterialTheme.colorScheme.primary)
                         .padding(20.dp)
                 ) {
-                    Text("previsões de parada", fontWeight = FontWeight.Bold, color = Color.White)
+                    Icon(imageVector = Icons.Default.WavingHand, contentDescription = "", tint = Color.White)
+                    Text("Ponto de Parada: ${stops.stopName}", fontWeight = FontWeight.Bold, color = Color.White)
+                    Text("Previsões:", fontWeight = FontWeight.Bold, color = Color.White)
                     arrivalForecast?.stopPointList?.lineList?.get(6)?.listOfVehicles?.forEach { vehicle ->
                         Text(
                             vehicle.estimatedTimeStop,
@@ -104,10 +110,28 @@ fun MapScreen(
                 }
             }
             arrivalForecast?.stopPointList?.lineList?.get(6)?.listOfVehicles?.forEach { vehicle ->
-                MarkerComposable(
+                MarkerInfoWindow(
                     MarkerState(position = LatLng(vehicle.latitude, vehicle.longitude)),
                 ){
-                    Icon(imageVector = Icons.Filled.DirectionsBus, contentDescription = "")
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .border(
+                                BorderStroke(1.dp, Color.Black),
+                                RoundedCornerShape(10)
+                            )
+                            .clip(RoundedCornerShape(10))
+                            .background(MaterialTheme.colorScheme.primary)
+                            .padding(20.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.DirectionsBus,
+                            contentDescription = "",
+                            tint = Color.White
+                        )
+                        Text(vehicle.estimatedTimeStop, fontWeight = FontWeight.Bold, color = Color.White)
+                    }
                 }
             }
         }

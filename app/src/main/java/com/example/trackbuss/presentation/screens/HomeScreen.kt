@@ -178,21 +178,6 @@ fun AppDrawer(
                 )
             }
         )
-        NavigationDrawerItem(
-            label = {
-                Text(
-                    text = "Previsão de chegada",
-                    style = MaterialTheme.typography.labelSmall
-                )
-            },
-            selected = false,
-            onClick = {
-                navigateToArrivalForecast()
-                closeDrawer()
-            },
-            icon = { Icon(imageVector = Icons.Filled.Search, contentDescription = null) },
-            shape = MaterialTheme.shapes.small
-        )
     }
 }
 

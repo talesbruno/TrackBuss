@@ -66,7 +66,7 @@ class SearchLinesViewModel @Inject constructor(
     fun onEvent(event: SearchEvent) {
         when (event) {
             is SearchEvent.QueryChanged -> {
-                searchState = searchState.copy(query = event.query, active = true)
+                searchState = searchState.copy(query = event.query)
             }
             SearchEvent.Submit -> {
                 searchLines(searchState.query)
