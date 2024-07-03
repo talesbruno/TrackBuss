@@ -37,8 +37,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.trackbuss.domain.data.ArrivalForecast
 import com.example.trackbuss.domain.data.BusStop
+import com.example.trackbuss.presentation.components.GenericSearchBar
 import com.example.trackbuss.presentation.viewmodels.GetArrivalForecastForLineViwModel
 import com.example.trackbuss.presentation.viewmodels.SearchStopsViewModel
+import com.example.trackbuss.states.SearchEvent
 
 @Composable
 fun StopPintsScreen(
@@ -47,6 +49,7 @@ fun StopPintsScreen(
     onNavigateToMapsScreen: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val state = searchStopsViewModel.searchState
     val loading by searchStopsViewModel.isLoading.collectAsStateWithLifecycle()
     if (loading) {
         SplashScreen()
@@ -59,6 +62,29 @@ fun StopPintsScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.fillMaxSize().padding(16.dp)
     ) {
+        GenericSearchBar(
+            items = busStops,
+            query = state.query,
+            onQueryChange = { newQuery ->
+                searchStopsViewModel.onEvent(SearchEvent.QueryChanged(newQuery))
+            },
+            onSearch = {
+                searchStopsViewModel.onEvent(SearchEvent.Submit)
+            },
+            active = state.active,
+            onActiveChange = { active ->
+
+            },
+            placeholder = {
+                Text("Filtrar")
+            },
+            itemContent = { busStop ->
+                ArrivalForecastCard(
+                    busStop,
+                    onNavigateToMapsScreen
+                )
+            }
+        )
         Text(
             text = "PONTOS DE PARADAS",
             fontWeight = FontWeight.Bold,

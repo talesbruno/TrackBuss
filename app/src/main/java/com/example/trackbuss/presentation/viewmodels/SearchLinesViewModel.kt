@@ -37,7 +37,7 @@ class SearchLinesViewModel @Inject constructor(
     private val _isError = MutableStateFlow("")
     val isError = _isError.asStateFlow()
 
-    fun searchLines(searchTerm: String) {
+    private fun searchLines(searchTerm: String) {
         viewModelScope.launch {
             searchLinesUseCase(searchTerm).collect { result ->
                 when (result) {

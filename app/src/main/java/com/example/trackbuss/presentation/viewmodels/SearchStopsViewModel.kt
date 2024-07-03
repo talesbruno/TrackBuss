@@ -1,10 +1,15 @@
 package com.example.trackbuss.presentation.viewmodels
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.trackbuss.domain.data.BusLine
 import com.example.trackbuss.domain.data.BusStop
 import com.example.trackbuss.domain.usecase.SearchStopsUseCase
+import com.example.trackbuss.states.SearchEvent
+import com.example.trackbuss.states.SearchState
 import com.example.trackbuss.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +24,8 @@ class SearchStopsViewModel @Inject constructor(
     private val searchStopsUseCase: SearchStopsUseCase
 ) :
     ViewModel() {
+    var searchState by mutableStateOf(SearchState())
+
     private val _data = MutableStateFlow<List<BusStop>>(emptyList())
     val data: StateFlow<List<BusStop>> = _data
 
@@ -51,6 +58,17 @@ class SearchStopsViewModel @Inject constructor(
                         }
                     }
                 }
+            }
+        }
+    }
+
+    fun onEvent(event: SearchEvent) {
+        when (event) {
+            is SearchEvent.QueryChanged -> {
+                searchState = searchState.copy(query = event.query, active = true)
+            }
+            SearchEvent.Submit -> {
+
             }
         }
     }

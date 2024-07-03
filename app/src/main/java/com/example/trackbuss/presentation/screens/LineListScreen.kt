@@ -64,10 +64,10 @@ fun LineListScreen(
             },
             active = state.active,
             onActiveChange = { active ->
-                // Handle active state change if needed
+
             },
             placeholder = {
-                Text("Search...")
+                Text("Buscar linha...")
             },
             itemContent = { busLine ->
                 LineCard(

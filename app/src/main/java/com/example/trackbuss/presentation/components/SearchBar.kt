@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -62,7 +63,7 @@ fun <T> GenericSearchBar(
         trailingIcon = {
             if (active) {
                 Icon(
-                    imageVector = Icons.Filled.ArrowBack,
+                    imageVector = Icons.Filled.Clear,
                     contentDescription = "Back",
                     modifier = Modifier
                         .padding(start = 16.dp)
@@ -80,7 +81,7 @@ fun <T> GenericSearchBar(
             }
         }
     ) {
-        if (searchResults.isNotEmpty()) {
+        if (query.isNotEmpty()) {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
                 contentPadding = PaddingValues(16.dp),

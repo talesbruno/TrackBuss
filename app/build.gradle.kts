@@ -67,6 +67,8 @@ dependencies {
     implementation(libs.navigation.compose)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.maps.compose)
+    implementation(libs.maps.compose.widgets)
+    implementation(libs.maps.compose.utils)
     testImplementation(libs.junit)
     implementation(libs.dagger.hilt)
     ksp(libs.hilt.compiler)

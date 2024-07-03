@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccessAlarm
 import androidx.compose.material.icons.filled.DirectionsBus
 import androidx.compose.material.icons.filled.WavingHand
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -43,7 +45,6 @@ import com.google.maps.android.compose.rememberCameraPositionState
 fun MapScreen(
     getArrivalForecastForStopViewModel: GetArrivalForecastForStopViewModel,
     lineCode: Int,
-    modifier: Modifier = Modifier
 ) {
     val loading by getArrivalForecastForStopViewModel.isLoading.collectAsStateWithLifecycle()
     LaunchedEffect(lineCode) {
@@ -54,8 +55,13 @@ fun MapScreen(
         SplashScreen()
     }
     if (arrivalForecast == null) {
-        // Trata o caso em que positionData é nulo ou não há paradas disponíveis
-        Text("Não há dados disponíveis para exibir o mapa.")
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("Não há dados disponíveis para exibir o mapa.")
+        }
         return
     }
     val stops = arrivalForecast?.stopPointList
@@ -98,9 +104,11 @@ fun MapScreen(
                 }
             }
             arrivalForecast?.stopPointList?.lineList?.get(6)?.listOfVehicles?.forEach { vehicle ->
-                Marker(
+                MarkerComposable(
                     MarkerState(position = LatLng(vehicle.latitude, vehicle.longitude)),
-                )
+                ){
+                    Icon(imageVector = Icons.Filled.DirectionsBus, contentDescription = "")
+                }
             }
         }
     }
